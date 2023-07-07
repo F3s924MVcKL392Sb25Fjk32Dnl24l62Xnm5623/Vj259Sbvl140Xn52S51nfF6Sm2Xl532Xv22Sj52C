@@ -224,6 +224,10 @@ UserSettings().GameSettings.MasterVolume = 0
 task.spawn(function()
 	for L_39_forvar0, L_40_forvar1 in pairs(workspace:GetDescendants()) do 
 		pcall(function()
+            if (L_40_forvar1:IsA("Seat")) or (L_40_forvar1:IsA("VehicleSeat")) then 
+                L_40_forvar1:Destroy()
+            end
+
 			if (L_40_forvar1:IsA("Decal")) or (L_40_forvar1:IsA("Texture")) then 
 				L_40_forvar1.Transparency = 1
 			end
