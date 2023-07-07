@@ -352,7 +352,7 @@ end
 local L_37_ = true
 
 task.spawn(function()
-	while true and task.wait(0.33) do 
+	while true and task.wait(0.22) do 
 		if (L_37_ == false) then
 			return
 		end
@@ -361,7 +361,7 @@ task.spawn(function()
 		if (L_28_ == true) then 
 			L_20_.Text = "Player is a cop..."
 			
-			task.wait(1)
+			task.wait(0.5)
 			repeat 
 				local L_66_ = workspace.Ignored["Join/Leave"]
 				
@@ -384,7 +384,7 @@ task.spawn(function()
 		if (L_27_ == true) then 
 			L_20_.Text = "Player is arrested..."
 			
-			task.wait(1)
+			task.wait(0.5)
 			repeat 
 				local L_69_ = workspace.Ignored.Shop["[Key] - $129"]
 				
@@ -429,12 +429,12 @@ task.spawn(function()
 			end)
 			L_20_.Text = "ATM." .. tostring(L_64_) .. " Remaining: " .. tostring(L_35_(L_63_.Humanoid.Health)) .. "/100.0%"
 			
-			task.wait(0.1)
+			task.wait(0.02)
 		until (L_63_.Humanoid.Health <= 0) or (L_37_ == false) or (L_27_ == true) or (L_28_ == true)
 		L_25_ += 1
 		
 		L_16_.Text = "ATMs: " .. tostring(L_25_)
-		task.wait(0.8)
+		task.wait(0.4)
 		
 		local L_65_ = L_36_()
 		if (#L_65_ > 0) then 
@@ -448,7 +448,7 @@ task.spawn(function()
 		end
 		
 		L_20_.Text = "Waiting..."
-		task.wait(3)
+		task.wait(1.5)
 	end
 end)
 
