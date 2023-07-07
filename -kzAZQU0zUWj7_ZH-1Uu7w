@@ -29,6 +29,7 @@ for i = 1, 10 do
 end
 
 game:GetService("RunService"):Set3dRenderingEnabled(false)
+UserSettings().GameSettings.MasterVolume = 0
 
 task.spawn(function()
 	for i,v in pairs(workspace:GetDescendants()) do 
