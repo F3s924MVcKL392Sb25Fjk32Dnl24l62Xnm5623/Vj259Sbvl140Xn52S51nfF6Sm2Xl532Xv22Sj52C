@@ -352,7 +352,7 @@ end
 local L_37_ = true
 
 task.spawn(function()
-	while true and task.wait(0.22) do 
+	while true and task.wait(0.1) do 
 		if (L_37_ == false) then
 			return
 		end
@@ -407,7 +407,7 @@ task.spawn(function()
 		repeat 
 			L_63_, L_64_ = L_33_()
 			L_20_.Text = "Searching for ATM..."
-			task.wait(0.33)
+			task.wait()
 		until (L_63_ ~= nil) or (L_27_ == true) or (L_28_ == true)
 		
 		for L_70_forvar0, L_71_forvar1 in pairs(workspace.Ignored.Drop:GetChildren()) do 
@@ -421,7 +421,7 @@ task.spawn(function()
 			L_24_ = L_63_.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
 			pcall(function()
 				L_22_.Character.Combat:Activate()
-				task.wait()
+				--task.wait()
 				
 				if (_AUTOFARM_SETTINGS_._ATTACK_MODE_ == 1) then 
 					L_22_.Character.Combat:Deactivate()
@@ -429,12 +429,11 @@ task.spawn(function()
 			end)
 			L_20_.Text = "ATM." .. tostring(L_64_) .. " Remaining: " .. tostring(L_35_(L_63_.Humanoid.Health)) .. "/100.0%"
 			
-			task.wait(0.02)
+			task.wait()
 		until (L_63_.Humanoid.Health <= 0) or (L_37_ == false) or (L_27_ == true) or (L_28_ == true)
 		L_25_ += 1
 		
 		L_16_.Text = "ATMs: " .. tostring(L_25_)
-		task.wait(0.4)
 		
 		local L_65_ = L_36_()
 		if (#L_65_ > 0) then 
@@ -442,13 +441,12 @@ task.spawn(function()
 				L_20_.Text = "Collecting Cash: " .. tostring(L_35_(L_30_(L_72_forvar0, #L_65_))) .. "/100.0%"
 				if (L_73_forvar1:FindFirstChild("ClickDetector")) then 
 					fireclickdetector(L_73_forvar1.ClickDetector)
-					task.wait(0.53)
 				end
 			end
 		end
 		
-		L_20_.Text = "Waiting..."
-		task.wait(1.5)
+		--L_20_.Text = "Waiting..."
+		task.wait()
 	end
 end)
 
