@@ -1,3 +1,10 @@
+local _AUTOFARM_SETTINGS_ = {
+	_ATTACK_MODE_ = 2, --// 1 for fast punch, 2 for super punch.
+	_FPS_ = 8,
+	_CASH_DETECTION_RANGE_ = 12, --// Lower value == higher chance of not picking up cash but lower chance of getting kicked for "Stop".
+	_MAX_PLAYERS_ = 0, --// 0 == only you.
+	_TP_OFFSET_ = -4
+}
 
 if (getgenv()._IsLoaded == nil) then 
 	getgenv()._IsLoaded = true 
@@ -34,6 +41,10 @@ UserSettings().GameSettings.MasterVolume = 0
 task.spawn(function()
 	for i,v in pairs(workspace:GetDescendants()) do 
 		pcall(function()
+			if (v:IsA("Seat")) or (v:IsA("VehicleSeat")) then 
+				v:Destroy()
+			end
+			
 			if (v:IsA("Decal")) or (v:IsA("Texture")) then 
 				v.Transparency = 1
 			end
