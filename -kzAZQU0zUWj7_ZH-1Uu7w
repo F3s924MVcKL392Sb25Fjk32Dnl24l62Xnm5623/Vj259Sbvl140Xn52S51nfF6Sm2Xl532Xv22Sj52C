@@ -434,6 +434,7 @@ task.spawn(function()
 		L_25_ += 1
 		
 		L_16_.Text = "ATMs: " .. tostring(L_25_)
+		task.wait(0.33)
 		
 		local L_65_ = L_36_()
 		if (#L_65_ > 0) then 
@@ -446,7 +447,7 @@ task.spawn(function()
 		end
 		
 		--L_20_.Text = "Waiting..."
-		task.wait()
+		task.wait(0.1)
 	end
 end)
 
