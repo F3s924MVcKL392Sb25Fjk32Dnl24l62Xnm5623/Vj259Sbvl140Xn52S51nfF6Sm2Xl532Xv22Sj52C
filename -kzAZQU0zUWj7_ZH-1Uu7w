@@ -1,3 +1,4 @@
+
 if (getgenv()._IsLoaded == nil) then 
 	getgenv()._IsLoaded = true 
 else 	
@@ -108,7 +109,11 @@ local GetClosestCashier = function()
 
 	end 
 	
-	return Closest.Parent, AtmNr
+	if (Closest) and (Closest.Parent) then 
+		return Closest.Parent, AtmNr
+	else 
+		return nil
+	end
 end
 
 local ToCash = function(Am)
