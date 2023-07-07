@@ -9,276 +9,58 @@ if (not game:IsLoaded()) then
 	task.wait(2)
 end
 
-repeat
-	task.wait(0.1)
-until (game:GetService("Players").LocalPlayer) and (game:GetService("Players").LocalPlayer.Character)
+repeat task.wait(0.1) until (game:GetService("Players").LocalPlayer) and (game:GetService("Players").LocalPlayer.Character)
 
-if (#game.Players:GetChildren() > (_AUTOFARM_SETTINGS_._MAX_PLAYERS_ + 1)) then 
-	game:GetService("StarterGui"):SetCore("SendNotification", {
-		Title = "Autofarm",
-		Text = "More than 1 player ingame!",
-		Duration = 15
-	})
+if (#game.Players:GetChildren() > (_AUTOFARM_SETTINGS_._MAX_PLAYERS_+1)) then 
+	game:GetService("StarterGui"):SetCore("SendNotification", {Title = "Autofarm",Text = "More than 1 player ingame!",Duration = 15})
 	task.wait(1)
 
 	getgenv()._IsLoaded = nil
 	return
 end
 
-local L_1_ = Instance.new("ScreenGui")
-local L_2_ = Instance.new("Frame")
-local L_3_ = Instance.new("Frame")
-local L_4_ = Instance.new("UICorner")
-local L_5_ = Instance.new("TextLabel")
-local L_6_ = Instance.new("Frame")
-local L_7_ = Instance.new("UIListLayout")
-local L_8_ = Instance.new("TextLabel")
-local L_9_ = Instance.new("UIPadding")
-local L_10_ = Instance.new("TextLabel")
-local L_11_ = Instance.new("Frame")
-local L_12_ = Instance.new("TextLabel")
-local L_13_ = Instance.new("Frame")
-local L_14_ = Instance.new("TextLabel")
-local L_15_ = Instance.new("Frame")
-local L_16_ = Instance.new("TextLabel")
-local L_17_ = Instance.new("Frame")
-local L_18_ = Instance.new("UIGradient")
-local L_19_ = Instance.new("UIStroke")
-local L_20_ = nil;
-L_1_.Name = "AutoFarm"
-L_1_.Parent = game:GetService("CoreGui")
-L_1_.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
-L_2_.Name = "M"
-L_2_.Parent = L_1_;
-L_2_.AnchorPoint = Vector2.new(0.5, 0.5)
-L_2_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_2_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_2_.BorderSizePixel = 0;
-L_2_.Position = UDim2.new(0.5, 0, 0.5, 0)
-L_2_.Size = UDim2.new(1, 12, 1, 12)
-L_3_.Name = "H"
-L_3_.Parent = L_2_;
-L_3_.AnchorPoint = Vector2.new(0.5, 0.5)
-L_3_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_3_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_3_.BorderSizePixel = 0;
-L_3_.Position = UDim2.new(0.5, 0, 0.5, 0)
-L_3_.Size = UDim2.new(0, 380, 0, 220)
-L_4_.Parent = L_3_;
-L_5_.Name = "TI"
-L_5_.Parent = L_3_;
-L_5_.AnchorPoint = Vector2.new(0.00999999978, 0)
-L_5_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_5_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_5_.BorderSizePixel = 0;
-L_5_.Position = UDim2.new(0.00999999978, 0, 0, -7)
-L_5_.Size = UDim2.new(0, 112, 0, 16)
-L_5_.Font = Enum.Font.RobotoMono;
-L_5_.LineHeight = 1.330;
-L_5_.Text = "Autofarm Info"
-L_5_.TextColor3 = Color3.fromRGB(188, 188, 188)
-L_5_.TextSize = 18.000;
-L_6_.Name = "HO"
-L_6_.Parent = L_3_;
-L_6_.AnchorPoint = Vector2.new(0.0299999993, 0.5)
-L_6_.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-L_6_.BackgroundTransparency = 1.000;
-L_6_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_6_.BorderSizePixel = 0;
-L_6_.Position = UDim2.new(0.0299999993, 0, 0.5, 0)
-L_6_.Size = UDim2.new(1, 0, 0.800000012, 0)
-L_7_.Parent = L_6_;
-L_7_.HorizontalAlignment = Enum.HorizontalAlignment.Center;
-L_7_.SortOrder = Enum.SortOrder.LayoutOrder;
-L_7_.VerticalAlignment = Enum.VerticalAlignment.Center;
-L_7_.Padding = UDim.new(0, 8)
-L_8_.Name = "USER"
-L_8_.Parent = L_6_;
-L_8_.AnchorPoint = Vector2.new(0.00999999978, 0)
-L_8_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_8_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_8_.BorderSizePixel = 0;
-L_8_.Position = UDim2.new(0.00999999978, 0, 0, -7)
-L_8_.Size = UDim2.new(0, 108, 0, 16)
-L_8_.Font = Enum.Font.RobotoMono;
-L_8_.LineHeight = 1.500;
-L_8_.Text = "Username: @EXAMPLEUSER12345"
-L_8_.TextColor3 = Color3.fromRGB(188, 188, 188)
-L_8_.TextSize = 20.000;
-L_9_.Parent = L_6_;
-L_9_.PaddingLeft = UDim.new(0, 12)
-L_10_.Name = "PROFIT"
-L_10_.Parent = L_6_;
-L_10_.AnchorPoint = Vector2.new(0.00999999978, 0)
-L_10_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_10_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_10_.BorderSizePixel = 0;
-L_10_.LayoutOrder = 1;
-L_10_.Position = UDim2.new(0.00999999978, 0, 0, -7)
-L_10_.Size = UDim2.new(0, 108, 0, 16)
-L_10_.Font = Enum.Font.RobotoMono;
-L_10_.LineHeight = 1.500;
-L_10_.Text = "Profit: 999,999,999$"
-L_10_.TextColor3 = Color3.fromRGB(188, 188, 188)
-L_10_.TextSize = 20.000;
-L_11_.Name = "LINE"
-L_11_.Parent = L_10_;
-L_11_.AnchorPoint = Vector2.new(0.5, 0)
-L_11_.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-L_11_.BackgroundTransparency = 0.950;
-L_11_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_11_.BorderSizePixel = 0;
-L_11_.Position = UDim2.new(0.5, 0, 0, -8)
-L_11_.Size = UDim2.new(1.10000002, 0, 0, 1)
-L_12_.Name = "WALLET"
-L_12_.Parent = L_6_;
-L_12_.AnchorPoint = Vector2.new(0.00999999978, 0)
-L_12_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_12_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_12_.BorderSizePixel = 0;
-L_12_.LayoutOrder = 2;
-L_12_.Position = UDim2.new(0.00999999978, 0, 0, -7)
-L_12_.Size = UDim2.new(0, 108, 0, 16)
-L_12_.Font = Enum.Font.RobotoMono;
-L_12_.LineHeight = 1.500;
-L_12_.Text = "Wallet: 999,999,999$"
-L_12_.TextColor3 = Color3.fromRGB(188, 188, 188)
-L_12_.TextSize = 20.000;
-L_13_.Name = "LINE"
-L_13_.Parent = L_12_;
-L_13_.AnchorPoint = Vector2.new(0.5, 0)
-L_13_.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-L_13_.BackgroundTransparency = 0.950;
-L_13_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_13_.BorderSizePixel = 0;
-L_13_.Position = UDim2.new(0.5, 0, 0, -8)
-L_13_.Size = UDim2.new(1.10000002, 0, 0, 1)
-L_14_.Name = "TIMER"
-L_14_.Parent = L_6_;
-L_14_.AnchorPoint = Vector2.new(0.00999999978, 0)
-L_14_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_14_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_14_.BorderSizePixel = 0;
-L_14_.LayoutOrder = 3;
-L_14_.Position = UDim2.new(0.00999999978, 0, 0, -7)
-L_14_.Size = UDim2.new(0, 108, 0, 16)
-L_14_.Font = Enum.Font.RobotoMono;
-L_14_.LineHeight = 1.500;
-L_14_.Text = "Timer: 99:99:99"
-L_14_.TextColor3 = Color3.fromRGB(188, 188, 188)
-L_14_.TextSize = 20.000;
-L_15_.Name = "LINE"
-L_15_.Parent = L_14_;
-L_15_.AnchorPoint = Vector2.new(0.5, 0)
-L_15_.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-L_15_.BackgroundTransparency = 0.950;
-L_15_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_15_.BorderSizePixel = 0;
-L_15_.Position = UDim2.new(0.5, 0, 0, -8)
-L_15_.Size = UDim2.new(1.10000002, 0, 0, 1)
-L_16_.Name = "ATMS"
-L_16_.Parent = L_6_;
-L_16_.AnchorPoint = Vector2.new(0.00999999978, 0)
-L_16_.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
-L_16_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_16_.BorderSizePixel = 0;
-L_16_.LayoutOrder = 4;
-L_16_.Position = UDim2.new(0.00999999978, 0, 0, -7)
-L_16_.Size = UDim2.new(0, 108, 0, 16)
-L_16_.Font = Enum.Font.RobotoMono;
-L_16_.LineHeight = 1.500;
-L_16_.Text = "ATMs: 99999"
-L_16_.TextColor3 = Color3.fromRGB(188, 188, 188)
-L_16_.TextSize = 20.000;
-L_17_.Name = "LINE"
-L_17_.Parent = L_16_;
-L_17_.AnchorPoint = Vector2.new(0.5, 0)
-L_17_.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-L_17_.BackgroundTransparency = 0.950;
-L_17_.BorderColor3 = Color3.fromRGB(0, 0, 0)
-L_17_.BorderSizePixel = 0;
-L_17_.Position = UDim2.new(0.5, 0, 0, -8)
-L_17_.Size = UDim2.new(1.10000002, 0, 0, 1)
-L_18_.Color = ColorSequence.new{
-	ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
-	ColorSequenceKeypoint.new(1.00, Color3.fromRGB(189, 189, 189))
-}
-L_18_.Rotation = 90;
-L_18_.Parent = L_2_;
-L_19_.Parent = L_3_;
-L_19_.Color = Color3.fromRGB(188, 188, 188)
-L_20_ = L_16_:Clone()
-L_20_.Parent = L_6_;
-L_20_.Text = "Status: Loading..."
-L_20_.LayoutOrder = 5
+local AutoFarm=Instance.new("ScreenGui")local M=Instance.new("Frame")local H=Instance.new("Frame")local UICorner=Instance.new("UICorner")local TI=Instance.new("TextLabel")local HO=Instance.new("Frame")local UIListLayout=Instance.new("UIListLayout")local USER=Instance.new("TextLabel")local UIPadding=Instance.new("UIPadding")local PROFIT=Instance.new("TextLabel")local LINE=Instance.new("Frame")local WALLET=Instance.new("TextLabel")local LINE_2=Instance.new("Frame")local TIMER=Instance.new("TextLabel")local LINE_3=Instance.new("Frame")local ATMS=Instance.new("TextLabel")local LINE_4=Instance.new("Frame")local UIGradient=Instance.new("UIGradient")local UIStroke=Instance.new("UIStroke")local Status=nil;AutoFarm.Name="AutoFarm"AutoFarm.Parent=game:GetService("CoreGui")AutoFarm.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;M.Name="M"M.Parent=AutoFarm;M.AnchorPoint=Vector2.new(0.5,0.5)M.BackgroundColor3=Color3.fromRGB(12,12,12)M.BorderColor3=Color3.fromRGB(0,0,0)M.BorderSizePixel=0;M.Position=UDim2.new(0.5,0,0.5,0)M.Size=UDim2.new(1,12,1,12)H.Name="H"H.Parent=M;H.AnchorPoint=Vector2.new(0.5,0.5)H.BackgroundColor3=Color3.fromRGB(12,12,12)H.BorderColor3=Color3.fromRGB(0,0,0)H.BorderSizePixel=0;H.Position=UDim2.new(0.5,0,0.5,0)H.Size=UDim2.new(0,380,0,220)UICorner.Parent=H;TI.Name="TI"TI.Parent=H;TI.AnchorPoint=Vector2.new(0.00999999978,0)TI.BackgroundColor3=Color3.fromRGB(12,12,12)TI.BorderColor3=Color3.fromRGB(0,0,0)TI.BorderSizePixel=0;TI.Position=UDim2.new(0.00999999978,0,0,-7)TI.Size=UDim2.new(0,112,0,16)TI.Font=Enum.Font.RobotoMono;TI.LineHeight=1.330;TI.Text="Autofarm Info"TI.TextColor3=Color3.fromRGB(188,188,188)TI.TextSize=18.000;HO.Name="HO"HO.Parent=H;HO.AnchorPoint=Vector2.new(0.0299999993,0.5)HO.BackgroundColor3=Color3.fromRGB(255,255,255)HO.BackgroundTransparency=1.000;HO.BorderColor3=Color3.fromRGB(0,0,0)HO.BorderSizePixel=0;HO.Position=UDim2.new(0.0299999993,0,0.5,0)HO.Size=UDim2.new(1,0,0.800000012,0)UIListLayout.Parent=HO;UIListLayout.HorizontalAlignment=Enum.HorizontalAlignment.Center;UIListLayout.SortOrder=Enum.SortOrder.LayoutOrder;UIListLayout.VerticalAlignment=Enum.VerticalAlignment.Center;UIListLayout.Padding=UDim.new(0,8)USER.Name="USER"USER.Parent=HO;USER.AnchorPoint=Vector2.new(0.00999999978,0)USER.BackgroundColor3=Color3.fromRGB(12,12,12)USER.BorderColor3=Color3.fromRGB(0,0,0)USER.BorderSizePixel=0;USER.Position=UDim2.new(0.00999999978,0,0,-7)USER.Size=UDim2.new(0,108,0,16)USER.Font=Enum.Font.RobotoMono;USER.LineHeight=1.500;USER.Text="Username: @EXAMPLEUSER12345"USER.TextColor3=Color3.fromRGB(188,188,188)USER.TextSize=20.000;UIPadding.Parent=HO;UIPadding.PaddingLeft=UDim.new(0,12)PROFIT.Name="PROFIT"PROFIT.Parent=HO;PROFIT.AnchorPoint=Vector2.new(0.00999999978,0)PROFIT.BackgroundColor3=Color3.fromRGB(12,12,12)PROFIT.BorderColor3=Color3.fromRGB(0,0,0)PROFIT.BorderSizePixel=0;PROFIT.LayoutOrder=1;PROFIT.Position=UDim2.new(0.00999999978,0,0,-7)PROFIT.Size=UDim2.new(0,108,0,16)PROFIT.Font=Enum.Font.RobotoMono;PROFIT.LineHeight=1.500;PROFIT.Text="Profit: 999,999,999$"PROFIT.TextColor3=Color3.fromRGB(188,188,188)PROFIT.TextSize=20.000;LINE.Name="LINE"LINE.Parent=PROFIT;LINE.AnchorPoint=Vector2.new(0.5,0)LINE.BackgroundColor3=Color3.fromRGB(200,200,200)LINE.BackgroundTransparency=0.950;LINE.BorderColor3=Color3.fromRGB(0,0,0)LINE.BorderSizePixel=0;LINE.Position=UDim2.new(0.5,0,0,-8)LINE.Size=UDim2.new(1.10000002,0,0,1)WALLET.Name="WALLET"WALLET.Parent=HO;WALLET.AnchorPoint=Vector2.new(0.00999999978,0)WALLET.BackgroundColor3=Color3.fromRGB(12,12,12)WALLET.BorderColor3=Color3.fromRGB(0,0,0)WALLET.BorderSizePixel=0;WALLET.LayoutOrder=2;WALLET.Position=UDim2.new(0.00999999978,0,0,-7)WALLET.Size=UDim2.new(0,108,0,16)WALLET.Font=Enum.Font.RobotoMono;WALLET.LineHeight=1.500;WALLET.Text="Wallet: 999,999,999$"WALLET.TextColor3=Color3.fromRGB(188,188,188)WALLET.TextSize=20.000;LINE_2.Name="LINE"LINE_2.Parent=WALLET;LINE_2.AnchorPoint=Vector2.new(0.5,0)LINE_2.BackgroundColor3=Color3.fromRGB(200,200,200)LINE_2.BackgroundTransparency=0.950;LINE_2.BorderColor3=Color3.fromRGB(0,0,0)LINE_2.BorderSizePixel=0;LINE_2.Position=UDim2.new(0.5,0,0,-8)LINE_2.Size=UDim2.new(1.10000002,0,0,1)TIMER.Name="TIMER"TIMER.Parent=HO;TIMER.AnchorPoint=Vector2.new(0.00999999978,0)TIMER.BackgroundColor3=Color3.fromRGB(12,12,12)TIMER.BorderColor3=Color3.fromRGB(0,0,0)TIMER.BorderSizePixel=0;TIMER.LayoutOrder=3;TIMER.Position=UDim2.new(0.00999999978,0,0,-7)TIMER.Size=UDim2.new(0,108,0,16)TIMER.Font=Enum.Font.RobotoMono;TIMER.LineHeight=1.500;TIMER.Text="Timer: 99:99:99"TIMER.TextColor3=Color3.fromRGB(188,188,188)TIMER.TextSize=20.000;LINE_3.Name="LINE"LINE_3.Parent=TIMER;LINE_3.AnchorPoint=Vector2.new(0.5,0)LINE_3.BackgroundColor3=Color3.fromRGB(200,200,200)LINE_3.BackgroundTransparency=0.950;LINE_3.BorderColor3=Color3.fromRGB(0,0,0)LINE_3.BorderSizePixel=0;LINE_3.Position=UDim2.new(0.5,0,0,-8)LINE_3.Size=UDim2.new(1.10000002,0,0,1)ATMS.Name="ATMS"ATMS.Parent=HO;ATMS.AnchorPoint=Vector2.new(0.00999999978,0)ATMS.BackgroundColor3=Color3.fromRGB(12,12,12)ATMS.BorderColor3=Color3.fromRGB(0,0,0)ATMS.BorderSizePixel=0;ATMS.LayoutOrder=4;ATMS.Position=UDim2.new(0.00999999978,0,0,-7)ATMS.Size=UDim2.new(0,108,0,16)ATMS.Font=Enum.Font.RobotoMono;ATMS.LineHeight=1.500;ATMS.Text="ATMs: 99999"ATMS.TextColor3=Color3.fromRGB(188,188,188)ATMS.TextSize=20.000;LINE_4.Name="LINE"LINE_4.Parent=ATMS;LINE_4.AnchorPoint=Vector2.new(0.5,0)LINE_4.BackgroundColor3=Color3.fromRGB(200,200,200)LINE_4.BackgroundTransparency=0.950;LINE_4.BorderColor3=Color3.fromRGB(0,0,0)LINE_4.BorderSizePixel=0;LINE_4.Position=UDim2.new(0.5,0,0,-8)LINE_4.Size=UDim2.new(1.10000002,0,0,1)UIGradient.Color=ColorSequence.new{ColorSequenceKeypoint.new(0.00,Color3.fromRGB(255,255,255)),ColorSequenceKeypoint.new(1.00,Color3.fromRGB(189,189,189))}UIGradient.Rotation=90;UIGradient.Parent=M;UIStroke.Parent=H;UIStroke.Color=Color3.fromRGB(188,188,188)Status=ATMS:Clone()Status.Parent=HO;Status.Text="Status: Loading..."Status.LayoutOrder=5
 --// ^ UI ^
 
-for L_38_forvar0 = 1, 10 do 
+for i = 1, 10 do 
 	setfpscap(_AUTOFARM_SETTINGS_._FPS_)
 	task.wait(0.1)
 end
 
 game:GetService("RunService"):Set3dRenderingEnabled(false)
-UserSettings().GameSettings.MasterVolume = 0
 
 task.spawn(function()
-	for L_39_forvar0, L_40_forvar1 in pairs(workspace:GetDescendants()) do 
+	for i,v in pairs(workspace:GetDescendants()) do 
 		pcall(function()
-            if (L_40_forvar1:IsA("Seat")) or (L_40_forvar1:IsA("VehicleSeat")) then 
-                L_40_forvar1:Destroy()
-            end
-
-			if (L_40_forvar1:IsA("Decal")) or (L_40_forvar1:IsA("Texture")) then 
-				L_40_forvar1.Transparency = 1
+			if (v:IsA("Decal")) or (v:IsA("Texture")) then 
+				v.Transparency = 1
 			end
 
-			if (not L_40_forvar1.Parent:FindFirstChild("Humanoid")) then 
-				L_40_forvar1.Transparency = 1
+			if (not v.Parent:FindFirstChild("Humanoid")) then 
+				v.Transparency = 1
 			end
 		end)
 
-		if (L_39_forvar0 % 1000 == 0) then 
+		if (i%1000==0) then 
 			task.wait()
 		end
 	end
 end)
 
-local L_21_ = game:GetService("Players")
-local L_22_ = L_21_.LocalPlayer
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
 
-L_1_.IgnoreGuiInset = true
-L_8_.Text = "Username: @" .. L_22_.Name
-L_20_.Text = ""
+AutoFarm.IgnoreGuiInset = true
+USER.Text = "Username: @"..Player.Name
+Status.Text = ""
 
-repeat
-	task.wait(0.1)
-until (L_22_.Character) and (L_22_.Character:FindFirstChild("FULLY_LOADED_CHAR"))
+repeat task.wait(0.1) until (Player.Character) and (Player.Character:FindFirstChild("FULLY_LOADED_CHAR"))
 
-pcall(function()
-	local L_41_ = game:GetService("ReplicatedStorage").MainEvent;
-	local L_42_ = {
-		"CHECKER_1",
-		"TeleportDetect",
-		"OneMoreTime"
-	}
-	local L_43_;
-	L_43_ = hookmetamethod(game, "__namecall", function(...)
-		local L_44_ = {
-			...
-		}
-		local L_45_ = L_44_[1]
-		local L_46_ = getnamecallmethod()
-		local L_47_ = getcallingscript()
-		if L_46_ == "FireServer" and L_45_ == L_41_ and table.find(L_42_, L_44_[2]) then
-			return
-		end
-		return L_43_(...)
-	end)
-end)
+pcall(function()local a=game:GetService("ReplicatedStorage").MainEvent;local b={"CHECKER_1","TeleportDetect","OneMoreTime"}local c;c=hookmetamethod(game,"__namecall",function(...)local d={...}local self=d[1]local e=getnamecallmethod()local f=getcallingscript()if e=="FireServer"and self==a and table.find(b,d[2])then return end return c(...)end)end)
 --// ^ Anticheat disabler ^
 
-L_22_.Idled:Connect(function()
-	for L_48_forvar0 = 1, 10 do 
+Player.Idled:Connect(function()
+	for i = 1, 10 do 
 		game:GetService("VirtualUser"):Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame) 
 		task.wait(0.2) 
 		game:GetService("VirtualUser"):Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
@@ -286,243 +68,243 @@ L_22_.Idled:Connect(function()
 	end
 end)
 
-local L_23_ = L_22_.DataFolder.Currency.Value
-local L_24_ = L_22_.Character.HumanoidRootPart.CFrame + Vector3.new(0, 10, 0)
-local L_25_ = 0
-local L_26_ = os.time()
-local L_27_ = false
-local L_28_ = false
+local StartCash = Player.DataFolder.Currency.Value
+local CurrPos = Player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 10, 0)
+local DestroyedATMs = 0
+local ExecutionTime = os.time()
+local Unarresting = false
+local ChangingTeam = false
 
-local L_29_ = workspace.Cashiers
+local Cashiers = workspace.Cashiers
 
 
-local L_30_ = function(L_49_arg0, L_50_arg1)
-	return ((L_49_arg0 / L_50_arg1) * 100)
+local GetProc = function(Num1, Num2)
+	return ((Num1/Num2)*100)
 end
 
-local L_31_ = function(L_51_arg0, L_52_arg1)
-	return (L_51_arg0.Position - L_52_arg1.Position).Magnitude
+local GetMag = function(Pos1, Pos2)
+	return (Pos1.Position - Pos2.Position).Magnitude
 end
 
-local L_32_ = function(L_53_arg0)
-	return string.format("%02i:%02i:%02i", (L_53_arg0 / 60 ^ 2), (L_53_arg0 / 60 % 60), (L_53_arg0 % 60))
+local TimeFromSeconds = function(Sec)
+	return string.format("%02i:%02i:%02i", (Sec/60^2), (Sec/60%60), (Sec%60))
 end
 
-local L_33_ = function()
-	local L_54_, L_55_ = nil
+local GetClosestCashier = function()
+	local Closest, AtmNr = nil
 	
-	for L_56_forvar0, L_57_forvar1 in pairs(L_29_:GetChildren()) do
-		if (L_57_forvar1.Humanoid.Health > 0) then 
-			if (L_54_ == nil) then 
-				L_54_ = L_57_forvar1.Head
-				L_55_ = L_56_forvar0
+	for i,v in pairs(Cashiers:GetChildren()) do
+		if (v.Humanoid.Health > 0) then 
+			if (Closest == nil) then 
+				Closest = v.Head
+				AtmNr = i
 			end 
 
-			if (L_31_(L_22_.Character.HumanoidRootPart, L_57_forvar1.Head) < L_31_(L_22_.Character.HumanoidRootPart, L_54_)) then 
-				L_54_ = L_57_forvar1.Head
-				L_55_ = L_56_forvar0
+			if (GetMag(Player.Character.HumanoidRootPart, v.Head) < GetMag(Player.Character.HumanoidRootPart, Closest)) then 
+				Closest = v.Head
+				AtmNr = i
 			end
 		end
 
 	end 
 	
-	return L_54_.Parent, L_55_
+	return Closest.Parent, AtmNr
 end
 
-local L_34_ = function(L_58_arg0)
-	return tostring(L_58_arg0):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+local ToCash = function(Am)
+	return tostring(Am):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
 end
 
-local L_35_ = function(L_59_arg0)
-	return tonumber(string.format("%." .. (1) .. "f", L_59_arg0))
+local RoundNumber = function(Num)
+	return tonumber(string.format("%." .. (1) .. "f", Num))
 end
 
-local L_36_ = function()
-	local L_60_ = {}
+local GetCashParts = function()
+	local CashParts = {}
 	
-	for L_61_forvar0, L_62_forvar1 in pairs(workspace.Ignored.Drop:GetChildren()) do 
-		if (L_62_forvar1.Name == "MoneyDrop") and (L_31_(L_22_.Character.HumanoidRootPart, L_62_forvar1) < _AUTOFARM_SETTINGS_._CASH_DETECTION_RANGE_) then 
-			L_60_[#L_60_ + 1] = L_62_forvar1
+	for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
+		if (v.Name == "MoneyDrop") and (GetMag(Player.Character.HumanoidRootPart, v) < _AUTOFARM_SETTINGS_._CASH_DETECTION_RANGE_) then 
+			CashParts[#CashParts+1] = v
 		end
 	end
 
-	return L_60_
+	return CashParts
 end
 
-local L_37_ = true
+local en = true
 
 task.spawn(function()
-	while true and task.wait(0.1) do 
-		if (L_37_ == false) then
-			return
-		end
-		local L_63_, L_64_ = nil, 0
+	while true and task.wait(0.33) do 
+		if (en == false) then return end
+		local CurrCashier, CurrAtmNr = nil, 0
 		
-		if (L_28_ == true) then 
-			L_20_.Text = "Player is a cop..."
+		if (ChangingTeam == true) then 
+			Status.Text = "Player is a cop..."
 			
 			task.wait(0.5)
 			repeat 
-				local L_66_ = workspace.Ignored["Join/Leave"]
+				local NPC = workspace.Ignored["Join/Leave"]
 				
-				L_20_.Text = "Changing team..."
+				Status.Text = "Changing team..."
 				
-				L_24_ = L_66_.HumanoidRootPart.CFrame + Vector3.new(0, -3, 0)
-				task.wait(0.33)
+				CurrPos = NPC.HumanoidRootPart.CFrame + Vector3.new(0, -3, 0)
+				task.wait(0.22)
 				
-				fireclickdetector(L_66_.ClickDetector)
+				fireclickdetector(NPC.ClickDetector)
 				
 				pcall(function()
-					for L_67_forvar0, L_68_forvar1 in pairs(getconnections(L_22_.PlayerGui.MainScreenGui.AreYouSure.TextButton.MouseButton1Click)) do
-						L_68_forvar1:Fire()
+					for i,v in pairs(getconnections(Player.PlayerGui.MainScreenGui.AreYouSure.TextButton.MouseButton1Click)) do
+						v:Fire()
 					end
 				end)
-			until (L_28_ == false)
+			until (ChangingTeam == false)
 		end
 		
 		
-		if (L_27_ == true) then 
-			L_20_.Text = "Player is arrested..."
+		if (Unarresting == true) then 
+			Status.Text = "Player is arrested..."
 			
 			task.wait(0.5)
 			repeat 
-				local L_69_ = workspace.Ignored.Shop["[Key] - $129"]
+				local Key = workspace.Ignored.Shop["[Key] - $129"]
 				
-				L_20_.Text = "Unarresting..."
+				Status.Text = "Unarresting..."
 
-				L_24_ = L_69_.Head.CFrame + Vector3.new(0, -3, 0)
-				task.wait(0.33)
+				CurrPos = Key.Head.CFrame + Vector3.new(0, -3, 0)
+				task.wait(0.5)
 				
-				fireclickdetector(L_69_.ClickDetector)
+				fireclickdetector(Key.ClickDetector)
 				
-				if (L_22_.Backpack:FindFirstChild("[Key]")) then 
+				if (Player.Backpack:FindFirstChild("[Key]")) then 
 					pcall(function()
-						L_22_.Backpack["[Key]"].Parent = L_22_.Character
+						Player.Backpack["[Key]"].Parent = Player.Character
 					end)
 				end
 				task.wait()
-			until (L_27_ == false)
+			until (Unarresting == false)
 		end
 		
 		repeat 
-			L_63_, L_64_ = L_33_()
-			L_20_.Text = "Searching for ATM..."
+			CurrCashier, CurrAtmNr = GetClosestCashier()
+			Status.Text = "Searching for ATM..."
 			task.wait()
-		until (L_63_ ~= nil) or (L_27_ == true) or (L_28_ == true)
+		until (CurrCashier ~= nil) or (Unarresting == true) or (ChangingTeam == true)
 		
-		for L_70_forvar0, L_71_forvar1 in pairs(workspace.Ignored.Drop:GetChildren()) do 
-			pcall(function()
-				L_71_forvar1:Destroy()
-				print("Destroyed " .. tostring(L_71_forvar1.Name))
-			end)
-		end
+		task.spawn(function()
+			for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
+				pcall(function()
+					v:Destroy()
+					print("Destroyed "..tostring(v.Name))
+				end)
+			end
+		end)
 		
 		repeat 
-			L_24_ = L_63_.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
+			CurrPos = CurrCashier.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
+			
 			pcall(function()
-				L_22_.Character.Combat:Activate()
-				--task.wait()
+				Player.Character.Combat:Activate()
 				
 				if (_AUTOFARM_SETTINGS_._ATTACK_MODE_ == 1) then 
-					L_22_.Character.Combat:Deactivate()
+					Player.Character.Combat:Deactivate()
 				end
 			end)
-			L_20_.Text = "ATM." .. tostring(L_64_) .. " Remaining: " .. tostring(L_35_(L_63_.Humanoid.Health)) .. "/100.0%"
+			Status.Text = "ATM."..tostring(CurrAtmNr).." Remaining: "..tostring(RoundNumber(CurrCashier.Humanoid.Health)).."/100.0%"
 			
 			task.wait()
-		until (L_63_.Humanoid.Health <= 0) or (L_37_ == false) or (L_27_ == true) or (L_28_ == true)
-		L_25_ += 1
+		until (CurrCashier.Humanoid.Health <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
+		DestroyedATMs += 1
 		
-		L_16_.Text = "ATMs: " .. tostring(L_25_)
-		task.wait(0.33)
-		
-		local L_65_ = L_36_()
-		if (#L_65_ > 0) then 
-			for L_72_forvar0, L_73_forvar1 in pairs(L_65_) do
-				L_20_.Text = "Collecting Cash: " .. tostring(L_35_(L_30_(L_72_forvar0, #L_65_))) .. "/100.0%"
-				if (L_73_forvar1:FindFirstChild("ClickDetector")) then 
-					fireclickdetector(L_73_forvar1.ClickDetector)
+		ATMS.Text = "ATMs: "..tostring(DestroyedATMs)
+
+		repeat 
+			local CurrCashParts = GetCashParts()
+			for i,v in pairs(CurrCashParts) do
+				Status.Text = "Collecting Cash: "..tostring(RoundNumber(GetProc(i, #CurrCashParts))).."/100.0%"
+				if (v:FindFirstChild("ClickDetector")) then 
+					fireclickdetector(v.ClickDetector)
 				end
 			end
-		end
+			task.wait()
+		until (#CurrCashParts <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
+
 		
-		--L_20_.Text = "Waiting..."
-		task.wait(0.1)
+		Status.Text = "Waiting..."
+		task.wait()
 	end
 end)
 
 task.spawn(function()
 	while true do 
-		if L_37_ == false then
-			return
-		end
+		if en == false then return end
 		
-		L_12_.Text = "Wallet: " .. tostring(L_34_(L_22_.DataFolder.Currency.Value)) .. "$"
-		L_10_.Text = "Profit: " .. tostring(L_34_(L_22_.DataFolder.Currency.Value - L_23_)) .. "$"
-		L_14_.Text = "Timer: " .. tostring(L_32_(os.time() - L_26_))
+		WALLET.Text = "Wallet: "..tostring(ToCash(Player.DataFolder.Currency.Value)).."$"
+		PROFIT.Text = "Profit: "..tostring(ToCash(Player.DataFolder.Currency.Value - StartCash)).."$"
+		TIMER.Text = "Timer: "..tostring(TimeFromSeconds(os.time() - ExecutionTime))
 		
-		L_29_:GetChildren()[16]:MoveTo(Vector3.new(-631.998, 23.7, -286.02))
-		L_29_:GetChildren()[15]:MoveTo(Vector3.new(-621.998, 21.7, -286.02))
-		for L_74_forvar0, L_75_forvar1 in pairs(L_29_:GetChildren()[16]:GetChildren()) do 
-			if (L_75_forvar1:IsA("Part")) or (L_75_forvar1:IsA("BasePart")) then 
-				L_75_forvar1.CanCollide = false 
-				L_75_forvar1.Anchored = true
+		Cashiers:GetChildren()[16]:MoveTo(Vector3.new(-631.998, 23.7, -286.02))
+		Cashiers:GetChildren()[15]:MoveTo(Vector3.new(-621.998, 21.7, -286.02))
+		for i,v in pairs(Cashiers:GetChildren()[16]:GetChildren()) do 
+			if (v:IsA("Part")) or (v:IsA("BasePart")) then 
+				v.CanCollide = false 
+				v.Anchored = true
 			end
 		end
-		for L_76_forvar0, L_77_forvar1 in pairs(L_29_:GetChildren()[15]:GetChildren()) do 
-			if (L_77_forvar1:IsA("Part")) or (L_77_forvar1:IsA("BasePart")) then 
-				L_77_forvar1.CanCollide = false 
-				L_77_forvar1.Anchored = true
+		for i,v in pairs(Cashiers:GetChildren()[15]:GetChildren()) do 
+			if (v:IsA("Part")) or (v:IsA("BasePart")) then 
+				v.CanCollide = false 
+				v.Anchored = true
 			end
 		end
 		
-		if (L_22_.Character:FindFirstChild("FULLY_LOADED_CHAR")) then 
+		if (Player.Character:FindFirstChild("FULLY_LOADED_CHAR")) then 
 			
 			pcall(function()
-				L_28_ = (L_22_.DataFolder.Officer.Value == 1 and true or false)
+				ChangingTeam = (Player.DataFolder.Officer.Value == 1 and true or false)
 			end)
 			
 			pcall(function()
-				L_27_ = L_22_.Character.BodyEffects.Cuff.Value
+				Unarresting = Player.Character.BodyEffects.Cuff.Value
 			end)
 			
-			if (L_22_.Backpack:FindFirstChild("Combat")) then 
+			if (Player.Backpack:FindFirstChild("Combat")) then 
 				task.spawn(function()
 					task.wait(3)
 					pcall(function()
-						L_22_.Backpack.Combat.Parent = L_22_.Character
+						Player.Backpack.Combat.Parent = Player.Character
 					end)
 				end)
 			end
 		end
-
 		
-		if (L_22_.Character) and (L_22_.Character:FindFirstChild("HumanoidRootPart")) then 
-			local L_78_ = L_22_.Character.HumanoidRootPart
+		if (Player.Character) and (Player.Character:FindFirstChild("HumanoidRootPart")) then 
+			local Root = Player.Character.HumanoidRootPart
 			
-			L_78_.Velocity = Vector3.new(0, 0, 0)
-			L_78_.CFrame = L_24_ * CFrame.Angles(math.rad(90), 0, 0)
+			Root.Velocity = Vector3.new(0, 0, 0)
+			Root.CFrame = CurrPos * CFrame.Angles(math.rad(90), 0, 0)
 		end
 		
 		task.wait()
 	end
 end)
 
-L_22_.Chatted:Connect(function(L_79_arg0)
-	if (L_79_arg0 == "sd!") then 
-		L_37_ = false
+Player.Chatted:Connect(function(s)
+	if (s=="sd!") then 
+		en = false
 		
 		getgenv()._IsLoaded = nil
-		L_1_:Destroy()
+		AutoFarm:Destroy()
 		setfpscap(60)
 		game:GetService("RunService"):Set3dRenderingEnabled(true)
 	end
 end)
 
-L_21_.PlayerAdded:Connect(function()
+Players.PlayerAdded:Connect(function()
 	task.wait(1)
 	
-	if (#game.Players:GetChildren() > (_AUTOFARM_SETTINGS_._MAX_PLAYERS_ + 1)) then 
-		L_22_:Kick("Someone joined the game and player count reached max players.")
+	if (#game.Players:GetChildren() > (_AUTOFARM_SETTINGS_._MAX_PLAYERS_+1)) then 
+		Player:Kick("Someone joined the game and player count reached max players.")
 	end
 end)
+
+
