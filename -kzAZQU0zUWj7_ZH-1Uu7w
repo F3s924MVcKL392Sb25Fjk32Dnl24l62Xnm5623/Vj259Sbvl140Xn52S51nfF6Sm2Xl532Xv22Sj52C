@@ -240,7 +240,7 @@ task.spawn(function()
 
 		
 		Status.Text = "Waiting..."
-		task.wait()
+		task.wait(0.1)
 	end
 end)
 
