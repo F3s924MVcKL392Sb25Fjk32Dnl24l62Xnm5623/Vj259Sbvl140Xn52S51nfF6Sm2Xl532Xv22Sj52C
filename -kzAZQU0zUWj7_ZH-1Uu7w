@@ -230,7 +230,7 @@ task.spawn(function()
 		repeat 
 			local CurrCashParts = GetCashParts()
 			for i,v in pairs(CurrCashParts) do
-				Status.Text = "Collecting Cash: "..tostring(RoundNumber(GetProc(i, #CurrCashParts))).."/100.0%"
+				Status.Text = "Collecting Cash..."
 				if (v:FindFirstChild("ClickDetector")) then 
 					fireclickdetector(v.ClickDetector)
 				end
