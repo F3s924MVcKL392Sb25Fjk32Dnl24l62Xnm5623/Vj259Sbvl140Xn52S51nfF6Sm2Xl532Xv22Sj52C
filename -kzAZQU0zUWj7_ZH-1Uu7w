@@ -418,8 +418,7 @@ task.spawn(function()
 		end
 		
 		repeat 
-			L_24_ = L_63_.Head.CFrame 
-			
+			L_24_ = L_63_.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
 			pcall(function()
 				L_22_.Character.Combat:Activate()
 				task.wait()
