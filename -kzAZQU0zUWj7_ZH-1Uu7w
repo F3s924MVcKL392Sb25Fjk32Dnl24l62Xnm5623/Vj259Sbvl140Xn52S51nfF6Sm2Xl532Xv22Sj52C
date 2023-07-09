@@ -1,3 +1,5 @@
+--// 79241051p
+
 if (getgenv()._IsLoaded == nil) then 
 	getgenv()._IsLoaded = true 
 else 	
@@ -79,242 +81,281 @@ local CurrPos = Player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 10, 0)
 local DestroyedATMs = 0
 local ExecutionTime = os.time()
 local Unarresting = false
+local StartedAt = os.time()
 local ChangingTeam = false
 
 local Cashiers = workspace.Cashiers
 
 
-local GetProc = function(Num1, Num2)
-	return ((Num1/Num2)*100)
-end
+local succ, err = pcall(function()
 
-local GetMag = function(Pos1, Pos2)
-	return (Pos1.Position - Pos2.Position).Magnitude
-end
+	local GetProc = function(Num1, Num2)
+		return ((Num1/Num2)*100)
+	end
 
-local TimeFromSeconds = function(Sec)
-	return string.format("%02i:%02i:%02i", (Sec/60^2), (Sec/60%60), (Sec%60))
-end
+	local GetMag = function(Pos1, Pos2)
+		return (Pos1.Position - Pos2.Position).Magnitude
+	end
 
-local GetClosestCashier = function()
-	local Closest, AtmNr = nil
-	
-	for i,v in pairs(Cashiers:GetChildren()) do
-		if (v.Humanoid.Health > 0) then 
-			if (Closest == nil) then 
-				Closest = v.Head
-				AtmNr = i
-			end 
+	local TimeFromSeconds = function(Sec)
+		return string.format("%02i:%02i:%02i", (Sec/60^2), (Sec/60%60), (Sec%60))
+	end
 
-			if (GetMag(Player.Character.HumanoidRootPart, v.Head) < GetMag(Player.Character.HumanoidRootPart, Closest)) then 
-				Closest = v.Head
-				AtmNr = i
+	local GetClosestCashier = function()
+		local Closest, AtmNr = nil
+
+		for i,v in pairs(Cashiers:GetChildren()) do
+			if (v.Humanoid.Health > 0) then 
+				if (Closest == nil) then 
+					Closest = v.Head
+					AtmNr = i
+				end 
+
+				if (GetMag(Player.Character.HumanoidRootPart, v.Head) < GetMag(Player.Character.HumanoidRootPart, Closest)) then 
+					Closest = v.Head
+					AtmNr = i
+				end
+			end
+
+		end 
+
+		if (Closest) and (Closest.Parent) then 
+			return Closest.Parent, AtmNr
+		else 
+			return nil
+		end
+	end
+
+	local ToCash = function(Am)
+		return tostring(Am):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+	end
+
+	local RoundNumber = function(Num)
+		return tonumber(string.format("%." .. (1) .. "f", Num))
+	end
+
+	local GetCashParts = function()
+		local CashParts = {}
+
+		for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
+			if (v.Name == "MoneyDrop") and (GetMag(Player.Character.HumanoidRootPart, v) < _AUTOFARM_SETTINGS_._CASH_DETECTION_RANGE_) then 
+				CashParts[#CashParts+1] = v
 			end
 		end
 
-	end 
-	
-	if (Closest) and (Closest.Parent) then 
-		return Closest.Parent, AtmNr
-	else 
-		return nil
-	end
-end
-
-local ToCash = function(Am)
-	return tostring(Am):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
-end
-
-local RoundNumber = function(Num)
-	return tonumber(string.format("%." .. (1) .. "f", Num))
-end
-
-local GetCashParts = function()
-	local CashParts = {}
-	
-	for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
-		if (v.Name == "MoneyDrop") and (GetMag(Player.Character.HumanoidRootPart, v) < _AUTOFARM_SETTINGS_._CASH_DETECTION_RANGE_) then 
-			CashParts[#CashParts+1] = v
-		end
+		return CashParts
 	end
 
-	return CashParts
-end
+	local en = true
 
-local en = true
+	task.spawn(function()
+		while true and task.wait(0.33) do 
+			if (Player.Character) and (Player.Character:FindFirstChild("FULLY_LOADED_CHAR")) then
+				if (en == false) then return end
+				local CurrCashier, CurrAtmNr = nil, 0
 
-task.spawn(function()
-	while true and task.wait(0.33) do 
-		if (en == false) then return end
-		local CurrCashier, CurrAtmNr = nil, 0
-		
-		if (ChangingTeam == true) then 
-			Status.Text = "Player is a cop..."
-			
-			task.wait(0.5)
-			repeat 
-				local NPC = workspace.Ignored["Join/Leave"]
-				
-				Status.Text = "Changing team..."
-				
-				CurrPos = NPC.HumanoidRootPart.CFrame + Vector3.new(0, -3, 0)
-				task.wait(0.22)
-				
-				fireclickdetector(NPC.ClickDetector)
-				
-				pcall(function()
-					for i,v in pairs(getconnections(Player.PlayerGui.MainScreenGui.AreYouSure.TextButton.MouseButton1Click)) do
-						v:Fire()
+				if (ChangingTeam == true) then 
+					Status.Text = "Player is a cop..."
+
+					task.wait(0.5)
+					repeat 
+						local NPC = workspace.Ignored["Join/Leave"]
+
+						Status.Text = "Changing team..."
+
+						CurrPos = NPC.HumanoidRootPart.CFrame + Vector3.new(0, -3, 0)
+						task.wait(0.22)
+
+						fireclickdetector(NPC.ClickDetector)
+
+						pcall(function()
+							for i,v in pairs(getconnections(Player.PlayerGui.MainScreenGui.AreYouSure.TextButton.MouseButton1Click)) do
+								v:Fire()
+							end
+						end)
+					until (ChangingTeam == false)
+				end
+
+
+				if (Unarresting == true) then 
+					Status.Text = "Player is arrested..."
+
+					task.wait(0.5)
+					repeat 
+						local Key = workspace.Ignored.Shop["[Key] - $129"]
+
+						Status.Text = "Unarresting..."
+
+						CurrPos = Key.Head.CFrame + Vector3.new(0, -3, 0)
+						task.wait(0.5)
+
+						fireclickdetector(Key.ClickDetector)
+
+						if (Player.Backpack:FindFirstChild("[Key]")) then 
+							pcall(function()
+								Player.Backpack["[Key]"].Parent = Player.Character
+							end)
+						end
+						task.wait()
+					until (Unarresting == false)
+				end
+
+				repeat 
+					CurrCashier, CurrAtmNr = GetClosestCashier()
+					Status.Text = "Searching for ATM..."
+					task.wait()
+				until (CurrCashier ~= nil) or (Unarresting == true) or (ChangingTeam == true)
+
+				task.spawn(function()
+					for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
+						pcall(function()
+							v:Destroy()
+							print("Destroyed "..tostring(v.Name))
+						end)
 					end
 				end)
-			until (ChangingTeam == false)
-		end
-		
-		
-		if (Unarresting == true) then 
-			Status.Text = "Player is arrested..."
-			
-			task.wait(0.5)
-			repeat 
-				local Key = workspace.Ignored.Shop["[Key] - $129"]
-				
-				Status.Text = "Unarresting..."
 
-				CurrPos = Key.Head.CFrame + Vector3.new(0, -3, 0)
-				task.wait(0.5)
-				
-				fireclickdetector(Key.ClickDetector)
-				
-				if (Player.Backpack:FindFirstChild("[Key]")) then 
+				repeat 
+					task.wait(0.33)
+				until (CurrCashier:FindFirstChild("Head")) and (CurrCashier:FindFirstChild("Humanoid"))
+				task.wait(0.2)
+
+				StartedAt = os.time()
+				repeat 
+					CurrPos = CurrCashier.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
+
+					if ((os.time() - StartedAt) >= 30) then 
+						print("RESET ATM")
+						
+						Player.Character.Humanoid.Health = 0
+					end
+
 					pcall(function()
-						Player.Backpack["[Key]"].Parent = Player.Character
+						Player.Character.Combat:Activate()
+
+						if (_AUTOFARM_SETTINGS_._ATTACK_MODE_ == 1) then 
+							Player.Character.Combat:Deactivate()
+						end
 					end)
-				end
+					Status.Text = "ATM."..tostring(CurrAtmNr).." Remaining: "..tostring(RoundNumber(CurrCashier.Humanoid.Health)).."/100.0%"
+
+					task.wait()
+				until (CurrCashier.Humanoid.Health <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
+				DestroyedATMs += 1
+
+				ATMS.Text = "ATMs: "..tostring(DestroyedATMs)
+
+				StartedAt = os.time()
+				repeat 
+					if ((os.time() - StartedAt) >= 30) then 
+						print("RESET CASH")
+						
+						Player.Character.Humanoid.Health = 0
+					end
+
+					local CurrCashParts = GetCashParts()
+					for i,v in pairs(CurrCashParts) do
+						Status.Text = "Collecting Cash..."
+						if (v:FindFirstChild("ClickDetector")) then 
+							fireclickdetector(v.ClickDetector)
+						else 
+							task.wait(0.33)
+							print("No fireclickdetector found, "..tostring(i))
+
+							if (v:FindFirstChild("ClickDetector")) then 
+								fireclickdetector(v.ClickDetector)
+							else 
+								v:Destroy()
+							end
+
+						end
+					end
+					task.wait()
+				until (#CurrCashParts <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
+
+
+				Status.Text = "Waiting..."
 				task.wait()
-			until (Unarresting == false)
+			end
 		end
-		
-		repeat 
-			CurrCashier, CurrAtmNr = GetClosestCashier()
-			Status.Text = "Searching for ATM..."
-			task.wait()
-		until (CurrCashier ~= nil) or (Unarresting == true) or (ChangingTeam == true)
-		
-		task.spawn(function()
-			for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
+	end)
+
+	task.spawn(function()
+		while true do 
+			if en == false then return end
+
+			WALLET.Text = "Wallet: "..tostring(ToCash(Player.DataFolder.Currency.Value)).."$"
+			PROFIT.Text = "Profit: "..tostring(ToCash(Player.DataFolder.Currency.Value - StartCash)).."$"
+			TIMER.Text = "Timer: "..tostring(TimeFromSeconds(os.time() - ExecutionTime))
+
+			Cashiers:GetChildren()[16]:MoveTo(Vector3.new(-631.998, 23.7, -286.02))
+			Cashiers:GetChildren()[15]:MoveTo(Vector3.new(-621.998, 21.7, -286.02))
+			for i,v in pairs(Cashiers:GetChildren()[16]:GetChildren()) do 
+				if (v:IsA("Part")) or (v:IsA("BasePart")) then 
+					v.CanCollide = false 
+					v.Anchored = true
+				end
+			end
+			for i,v in pairs(Cashiers:GetChildren()[15]:GetChildren()) do 
+				if (v:IsA("Part")) or (v:IsA("BasePart")) then 
+					v.CanCollide = false 
+					v.Anchored = true
+				end
+			end
+
+			if (Player.Character:FindFirstChild("FULLY_LOADED_CHAR")) then 
+
 				pcall(function()
-					v:Destroy()
-					print("Destroyed "..tostring(v.Name))
+					ChangingTeam = (Player.DataFolder.Officer.Value == 1 and true or false)
 				end)
-			end
-		end)
-		
-		repeat 
-			CurrPos = CurrCashier.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
-			
-			pcall(function()
-				Player.Character.Combat:Activate()
-				
-				if (_AUTOFARM_SETTINGS_._ATTACK_MODE_ == 1) then 
-					Player.Character.Combat:Deactivate()
-				end
-			end)
-			Status.Text = "ATM."..tostring(CurrAtmNr).." Remaining: "..tostring(RoundNumber(CurrCashier.Humanoid.Health)).."/100.0%"
-			
-			task.wait()
-		until (CurrCashier.Humanoid.Health <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
-		DestroyedATMs += 1
-		
-		ATMS.Text = "ATMs: "..tostring(DestroyedATMs)
 
-		repeat 
-			local CurrCashParts = GetCashParts()
-			for i,v in pairs(CurrCashParts) do
-				Status.Text = "Collecting Cash..."
-				if (v:FindFirstChild("ClickDetector")) then 
-					fireclickdetector(v.ClickDetector)
-				end
-			end
-			task.wait()
-		until (#CurrCashParts <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
+				pcall(function()
+					Unarresting = Player.Character.BodyEffects.Cuff.Value
+				end)
 
-		
-		Status.Text = "Waiting..."
-		task.wait(0.1)
-	end
-end)
-
-task.spawn(function()
-	while true do 
-		if en == false then return end
-		
-		WALLET.Text = "Wallet: "..tostring(ToCash(Player.DataFolder.Currency.Value)).."$"
-		PROFIT.Text = "Profit: "..tostring(ToCash(Player.DataFolder.Currency.Value - StartCash)).."$"
-		TIMER.Text = "Timer: "..tostring(TimeFromSeconds(os.time() - ExecutionTime))
-		
-		Cashiers:GetChildren()[16]:MoveTo(Vector3.new(-631.998, 23.7, -286.02))
-		Cashiers:GetChildren()[15]:MoveTo(Vector3.new(-621.998, 21.7, -286.02))
-		for i,v in pairs(Cashiers:GetChildren()[16]:GetChildren()) do 
-			if (v:IsA("Part")) or (v:IsA("BasePart")) then 
-				v.CanCollide = false 
-				v.Anchored = true
-			end
-		end
-		for i,v in pairs(Cashiers:GetChildren()[15]:GetChildren()) do 
-			if (v:IsA("Part")) or (v:IsA("BasePart")) then 
-				v.CanCollide = false 
-				v.Anchored = true
-			end
-		end
-		
-		if (Player.Character:FindFirstChild("FULLY_LOADED_CHAR")) then 
-			
-			pcall(function()
-				ChangingTeam = (Player.DataFolder.Officer.Value == 1 and true or false)
-			end)
-			
-			pcall(function()
-				Unarresting = Player.Character.BodyEffects.Cuff.Value
-			end)
-			
-			if (Player.Backpack:FindFirstChild("Combat")) then 
-				task.spawn(function()
-					task.wait(3)
-					pcall(function()
-						Player.Backpack.Combat.Parent = Player.Character
+				if (Player.Backpack:FindFirstChild("Combat")) then 
+					task.spawn(function()
+						task.wait(3)
+						pcall(function()
+							Player.Backpack.Combat.Parent = Player.Character
+						end)
 					end)
-				end)
+				end
 			end
+
+			if (Player.Character) and (Player.Character:FindFirstChild("HumanoidRootPart")) then 
+				local Root = Player.Character.HumanoidRootPart
+
+				Root.Velocity = Vector3.new(0, 0, 0)
+				Root.CFrame = CurrPos * CFrame.Angles(math.rad(90), 0, 0)
+			end
+
+			task.wait()
 		end
-		
-		if (Player.Character) and (Player.Character:FindFirstChild("HumanoidRootPart")) then 
-			local Root = Player.Character.HumanoidRootPart
-			
-			Root.Velocity = Vector3.new(0, 0, 0)
-			Root.CFrame = CurrPos * CFrame.Angles(math.rad(90), 0, 0)
+	end)
+
+	Player.Chatted:Connect(function(s)
+		if (s=="sd!") then 
+			en = false
+
+			getgenv()._IsLoaded = nil
+			AutoFarm:Destroy()
+			setfpscap(60)
+			game:GetService("RunService"):Set3dRenderingEnabled(true)
 		end
-		
-		task.wait()
-	end
+	end)
+
+	Players.PlayerAdded:Connect(function()
+		task.wait(1)
+
+		if (#game.Players:GetChildren() > (_AUTOFARM_SETTINGS_._MAX_PLAYERS_+1)) then 
+			Player:Kick("Someone joined the game and player count reached max players.")
+		end
+	end)
 end)
 
-Player.Chatted:Connect(function(s)
-	if (s=="sd!") then 
-		en = false
-		
-		getgenv()._IsLoaded = nil
-		AutoFarm:Destroy()
-		setfpscap(60)
-		game:GetService("RunService"):Set3dRenderingEnabled(true)
+if (err) then 
+	for i = 1, 3 do 
+		print(tostring(tick().." | "..tostring(err)))
 	end
-end)
-
-Players.PlayerAdded:Connect(function()
-	task.wait(1)
-	
-	if (#game.Players:GetChildren() > (_AUTOFARM_SETTINGS_._MAX_PLAYERS_+1)) then 
-		Player:Kick("Someone joined the game and player count reached max players.")
-	end
-end)
-
-
+end
