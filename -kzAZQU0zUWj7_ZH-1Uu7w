@@ -1,4 +1,4 @@
---// 79241051p
+--//1104
 
 if (getgenv()._IsLoaded == nil) then 
 	getgenv()._IsLoaded = true 
@@ -227,7 +227,9 @@ local succ, err = pcall(function()
 					if ((os.time() - StartedAt) >= 30) then 
 						print("RESET ATM")
 						
-						Player.Character.Humanoid.Health = 0
+						pcall(function()
+							Player.Character:WaitForChild("Humanoid").Health = 0
+						end)
 					end
 
 					pcall(function()
@@ -250,7 +252,9 @@ local succ, err = pcall(function()
 					if ((os.time() - StartedAt) >= 30) then 
 						print("RESET CASH")
 						
-						Player.Character.Humanoid.Health = 0
+						pcall(function()
+							Player.Character:WaitForChild("Humanoid").Health = 0
+						end)
 					end
 
 					local CurrCashParts = GetCashParts()
