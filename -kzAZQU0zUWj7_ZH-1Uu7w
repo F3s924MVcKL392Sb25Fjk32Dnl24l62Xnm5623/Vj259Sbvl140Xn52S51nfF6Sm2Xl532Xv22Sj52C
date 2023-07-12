@@ -228,7 +228,7 @@ local succ, err = pcall(function()
 						print("RESET ATM")
 						
 						pcall(function()
-							Player.Character:WaitForChild("Humanoid").Health = 0
+							--Player.Character:WaitForChild("Humanoid").Health = 0
 						end)
 					end
 
@@ -253,7 +253,7 @@ local succ, err = pcall(function()
 						print("RESET CASH")
 						
 						pcall(function()
-							Player.Character:WaitForChild("Humanoid").Health = 0
+							--Player.Character:WaitForChild("Humanoid").Health = 0
 						end)
 					end
 
