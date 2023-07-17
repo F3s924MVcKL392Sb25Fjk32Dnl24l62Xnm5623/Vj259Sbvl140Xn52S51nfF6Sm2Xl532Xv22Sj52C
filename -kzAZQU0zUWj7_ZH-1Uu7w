@@ -1,4 +1,4 @@
---//1104
+--//6:05am7/17
 
 if (getgenv()._IsLoaded == nil) then 
 	getgenv()._IsLoaded = true 
@@ -39,7 +39,7 @@ task.spawn(function()
 			if (v:IsA("Seat")) or (v:IsA("VehicleSeat")) then 
 				v:Destroy()
 			end
-			
+
 			if (v:IsA("Decal")) or (v:IsA("Texture")) then 
 				v.Transparency = 1
 			end
@@ -61,6 +61,7 @@ local Player = Players.LocalPlayer
 AutoFarm.IgnoreGuiInset = true
 USER.Text = "Username: @"..Player.Name
 Status.Text = ""
+ATMS.Text = "ATMs: 0"
 
 repeat task.wait(0.1) until (Player.Character) and (Player.Character:FindFirstChild("FULLY_LOADED_CHAR"))
 
@@ -82,6 +83,8 @@ local DestroyedATMs = 0
 local ExecutionTime = os.time()
 local Unarresting = false
 local StartedAt = os.time()
+local Skip = false
+local SkippedATM = nil
 local ChangingTeam = false
 
 local Cashiers = workspace.Cashiers
@@ -105,7 +108,7 @@ local succ, err = pcall(function()
 		local Closest, AtmNr = nil
 
 		for i,v in pairs(Cashiers:GetChildren()) do
-			if (v.Humanoid.Health > 0) then 
+			if (v.Humanoid.Health > 0) and (v ~= SkippedATM) then 
 				if (Closest == nil) then 
 					Closest = v.Head
 					AtmNr = i
@@ -153,6 +156,7 @@ local succ, err = pcall(function()
 			if (Player.Character) and (Player.Character:FindFirstChild("FULLY_LOADED_CHAR")) then
 				if (en == false) then return end
 				local CurrCashier, CurrAtmNr = nil, 0
+				
 
 				if (ChangingTeam == true) then 
 					Status.Text = "Player is a cop..."
@@ -205,12 +209,13 @@ local succ, err = pcall(function()
 					Status.Text = "Searching for ATM..."
 					task.wait()
 				until (CurrCashier ~= nil) or (Unarresting == true) or (ChangingTeam == true)
+				SkippedATM = nil
 
 				task.spawn(function()
 					for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do 
 						pcall(function()
 							v:Destroy()
-							print("Destroyed "..tostring(v.Name))
+							print("Destroyed "..tostring(v.Name).." - "..tostring(i))
 						end)
 					end
 				end)
@@ -219,18 +224,16 @@ local succ, err = pcall(function()
 					task.wait(0.33)
 				until (CurrCashier:FindFirstChild("Head")) and (CurrCashier:FindFirstChild("Humanoid"))
 				task.wait(0.2)
-
+				
 				StartedAt = os.time()
 				repeat 
-					CurrPos = CurrCashier.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
+					if ((os.time() - StartedAt) >= 12) then 
+						print(os.time().." - Skipping ATM")
 
-					if ((os.time() - StartedAt) >= 30) then 
-						print("RESET ATM")
-						
-						pcall(function()
-							--Player.Character:WaitForChild("Humanoid").Health = 0
-						end)
+						SkippedATM = CurrCashier
 					end
+					
+					CurrPos = CurrCashier.Head.CFrame + Vector3.new(0, (_AUTOFARM_SETTINGS_._TP_OFFSET_ or -2), 0) 
 
 					pcall(function()
 						Player.Character.Combat:Activate()
@@ -242,19 +245,21 @@ local succ, err = pcall(function()
 					Status.Text = "ATM."..tostring(CurrAtmNr).." Remaining: "..tostring(RoundNumber(CurrCashier.Humanoid.Health)).."/100.0%"
 
 					task.wait()
-				until (CurrCashier.Humanoid.Health <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
+				until (CurrCashier.Humanoid.Health <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true) or (SkippedATM ~= nil)
+				
 				DestroyedATMs += 1
 
 				ATMS.Text = "ATMs: "..tostring(DestroyedATMs)
+				task.wait(0.05)
 
 				StartedAt = os.time()
 				repeat 
-					if ((os.time() - StartedAt) >= 30) then 
-						print("RESET CASH")
+					if ((os.time() - StartedAt) >= 6) then 
+						print(os.time().." - Skipping cash")
 						
-						pcall(function()
-							--Player.Character:WaitForChild("Humanoid").Health = 0
-						end)
+						Status.Text = "Cash took too long to pickup, Skipping..."
+					
+						Skip = true
 					end
 
 					local CurrCashParts = GetCashParts()
@@ -262,23 +267,13 @@ local succ, err = pcall(function()
 						Status.Text = "Collecting Cash..."
 						if (v:FindFirstChild("ClickDetector")) then 
 							fireclickdetector(v.ClickDetector)
-						else 
-							task.wait(0.33)
-							print("No fireclickdetector found, "..tostring(i))
-
-							if (v:FindFirstChild("ClickDetector")) then 
-								fireclickdetector(v.ClickDetector)
-							else 
-								v:Destroy()
-							end
-
+							task.wait(0.12)
 						end
 					end
-					task.wait()
-				until (#CurrCashParts <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true)
-
-
-				Status.Text = "Waiting..."
+					task.wait(0.02)
+				until (#CurrCashParts <= 0) or (en == false) or (Unarresting == true) or (ChangingTeam == true) or (Skip == true)
+				Skip = false
+			
 				task.wait()
 			end
 		end
